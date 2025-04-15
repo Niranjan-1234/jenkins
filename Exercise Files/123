@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    stages {
+        stage ("Updates") {
+            steps {
+                  sh "sudo yum update -y"
+            }
+        }
+        
+        stage ("Install HTTPD") {
+            steps {
+                sh "sudo yum install httpd -y"
+            }
+        }
+        stage ("Start HTTPD") {
+            steps {
+                sh " sudo systemctl start httpd"
+            }
+        }
+        stage ("Enable HTTPD") {
+            steps {
+                sh " sudo systemctl enable httpd"
+            }
+        }
+        stage ("Status") {
+            steps {
+                sh "sudo systemctl status httpd"
+            }
+        }
+    }
+    post {
+        success{
+            echo "This build is success"
+        }
+        failure{
+            echo "This build is failure"
+        }
+    }
+}
